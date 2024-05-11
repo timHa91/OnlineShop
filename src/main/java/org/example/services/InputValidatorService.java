@@ -1,6 +1,6 @@
-package org.example.controller.validation;
+package org.example.services;
 
-public class InputValidator {
+public class InputValidatorService {
 
     public static boolean validateMainMenuInput(String input) {
         if (input.equals("exit")) return true;
