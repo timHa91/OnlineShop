@@ -1,4 +1,4 @@
-package org.example.controller;
+package org.example.controller.auth;
 
 import org.example.model.User;
 
@@ -10,7 +10,7 @@ public class UsersManagement {
     private static UsersManagement instance;
     private final List<User> users;
 
-    private UsersManagement() {
+    UsersManagement() {
         this.users = new ArrayList<>();
     }
 

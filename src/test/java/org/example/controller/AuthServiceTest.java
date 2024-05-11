@@ -2,6 +2,8 @@ package org.example.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.example.controller.auth.AuthService;
+import org.example.controller.auth.UsersManagement;
 import org.example.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,26 +14,26 @@ public class AuthServiceTest {
 
     @BeforeEach
     public void setUp() {
-        authService = new AuthService();
-        UsersManagement.getInstance().addUser(new User("alice", "password123"));
-        UsersManagement.getInstance().addUser(new User("bob", "pass456"));
+        // Erstellen einer neuen Instanz von UsersManagement für die Tests
+        UsersManagement testUsersManagement = new UsersManagement();
+        authService = new AuthService(testUsersManagement);
+        // Fügen Sie Testbenutzer zur testUsersManagement-Instanz hinzu
+        testUsersManagement.addUser(new User("testuser", "testpassword"));
+        testUsersManagement.addUser(new User("alice", "password123"));
     }
 
     @Test
     public void testAuthenticateUser_WhenUserCredentialsIsNull() {
-        authService.authenticateUser(null);
-        assertFalse(authService.getAuthenticationState());
+        assertFalse(authService.authenticateUser(null));
     }
 
     @Test
     public void testAuthenticateUser_WithInvalidCredentials() {
-        authService.authenticateUser(new User("username", "password"));
-        assertFalse(authService.getAuthenticationState());
+        assertFalse(authService.authenticateUser(new User("username", "password")));
     }
 
     @Test
     public void testAuthenticateUser_WithValidCredentials() {
-        authService.authenticateUser(new User("alice", "password123"));
-        assertTrue(authService.getAuthenticationState());
+        assertTrue(authService.authenticateUser(new User("alice", "password123")));
     }
 }
