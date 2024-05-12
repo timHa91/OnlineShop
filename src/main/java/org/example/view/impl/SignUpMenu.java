@@ -29,13 +29,15 @@ public class SignUpMenu implements Menu {
         System.out.println("Enter password:");
         String password = scanner.next();
         System.out.println("Enter email:");
+
+        scanner = new Scanner(System.in);
         String email = scanner.nextLine();
 
         UserImpl newUser = new UserImpl(
                 firstname,
                 lastname,
-                password,
-                email
+                email,
+                password
         );
 
         String errorMessage = usersManagementService.registerUser(newUser);

@@ -1,6 +1,7 @@
 package org.example.services.impl;
 
 import org.example.configs.ApplicationContext;
+import org.example.models.Credentials;
 import org.example.models.User;
 import org.example.services.UserManagementService;
 
@@ -22,7 +23,7 @@ public class UsersManagementServiceImpl implements UserManagementService {
         this.applicationContext = ApplicationContext.getInstance();
     }
 
-    public static synchronized UsersManagementServiceImpl getInstance() {
+    public static UsersManagementServiceImpl getInstance() {
         if (instance == null) {
             instance = new UsersManagementServiceImpl();
         }
@@ -41,15 +42,19 @@ public class UsersManagementServiceImpl implements UserManagementService {
 
     @Override
     public String registerUser(User user) {
-        if(!checkIfEmailUnique(user.getEmail())) {
-            return NOT_UNIQUE_EMAIL_ERROR_MESSAGE;
+        String errorMessage = checkIfEmailValid(user.getEmail());
+        if (errorMessage != null && !errorMessage.isEmpty()) {
+            return  errorMessage;
         }
-        if(user.getEmail().isEmpty()) {
-            return EMPTY_EMAIL_ERROR_MESSAGE;
-        }
-
         this.addUser(user);
-        return "";
+        return NO_ERROR_MESSAGE;
+    }
+
+    @Override
+    public String authenticateUser(Credentials credentials) {
+
+        
+        return null;
     }
 
     private void addUser(User user) {
@@ -58,18 +63,18 @@ public class UsersManagementServiceImpl implements UserManagementService {
         }
     }
 
-    private boolean checkIfEmailUnique(String email) {
-        if(email == null) {
-            System.out.println("Email can't be null");
-            return false;
+    private String checkIfEmailValid(String email) {
+        System.out.println("Email: " + email);
+        if(email == null || email.isEmpty()) {
+            return EMPTY_EMAIL_ERROR_MESSAGE;
         }
 
         for (User user : getUsers()) {
             if (user == null) continue;
             if (user.getEmail() != null && user.getEmail().equals(email)) {
-                return false;
+                return NOT_UNIQUE_EMAIL_ERROR_MESSAGE;
             }
         }
-        return true;
+        return NO_ERROR_MESSAGE;
     }
 }
