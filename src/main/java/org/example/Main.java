@@ -9,6 +9,6 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         MainMenu mainMenu = new MainMenu(scanner);
-        mainMenu.runMainMenu();
+        mainMenu.start();
     }
 }

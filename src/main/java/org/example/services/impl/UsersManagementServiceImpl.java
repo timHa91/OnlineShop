@@ -1,19 +1,25 @@
 package org.example.services.impl;
 
+import org.example.configs.ApplicationContext;
 import org.example.models.User;
 import org.example.services.UserManagementService;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class UsersManagementServiceImpl implements UserManagementService {
 
+    private static final String NOT_UNIQUE_EMAIL_ERROR_MESSAGE = "This email is already used by another user. Please, use another email";
+    private static final String EMPTY_EMAIL_ERROR_MESSAGE = "You have to input email to register. Please, try one more time";
+    private static final String NO_ERROR_MESSAGE = "";
+
+    private static final int DEFAULT_USERS_CAPACITY = 10;
+
     private static UsersManagementServiceImpl instance;
-    private final List<User> users;
-    public static boolean isAuthenticated;
+    private final ApplicationContext applicationContext;
+
+    private final User[] users;
 
     public UsersManagementServiceImpl() {
-        this.users = new ArrayList<>();
+        users = new User[DEFAULT_USERS_CAPACITY];
+        this.applicationContext = ApplicationContext.getInstance();
     }
 
     public static synchronized UsersManagementServiceImpl getInstance() {
@@ -24,7 +30,7 @@ public class UsersManagementServiceImpl implements UserManagementService {
     }
 
     @Override
-    public List<User> getUsers() {
+    public User[] getUsers() {
         return users;
     }
 
@@ -35,20 +41,35 @@ public class UsersManagementServiceImpl implements UserManagementService {
 
     @Override
     public String registerUser(User user) {
+        if(!checkIfEmailUnique(user.getEmail())) {
+            return NOT_UNIQUE_EMAIL_ERROR_MESSAGE;
+        }
+        if(user.getEmail().isEmpty()) {
+            return EMPTY_EMAIL_ERROR_MESSAGE;
+        }
+
         this.addUser(user);
-        isAuthenticated = true;
-        return "New user is created";
+        return "";
     }
 
     private void addUser(User user) {
         if(user != null) {
-            this.users.add(user);
+            this.users[user.getId() - 1] = user;
         }
     }
 
-    public boolean authenticateUser(User userCredentials) {
-        if (userCredentials == null) return false;
-        isAuthenticated = users.stream().anyMatch(foundUser -> foundUser.equals(userCredentials));
-        return isAuthenticated;
+    private boolean checkIfEmailUnique(String email) {
+        if(email == null) {
+            System.out.println("Email can't be null");
+            return false;
+        }
+
+        for (User user : getUsers()) {
+            if (user == null) continue;
+            if (user.getEmail() != null && user.getEmail().equals(email)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

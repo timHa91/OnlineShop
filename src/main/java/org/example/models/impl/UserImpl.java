@@ -13,7 +13,7 @@ public class UserImpl implements User {
 
     public UserImpl(String firstName, String lastName, String email, String password) {
         userCreatedCount++;
-        this.id = userCreatedCount + 1;
+        this.id = userCreatedCount;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
