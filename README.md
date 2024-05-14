@@ -1,2 +1,2 @@
 # OnlineShop
-Online Shop Backend with plain Java
+Online Shop with plain Java
