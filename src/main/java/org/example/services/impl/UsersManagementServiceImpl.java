@@ -6,6 +6,7 @@ import org.example.models.User;
 import org.example.services.UserManagementService;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 
 public class UsersManagementServiceImpl implements UserManagementService {
@@ -40,24 +41,26 @@ public class UsersManagementServiceImpl implements UserManagementService {
 
     @Override
     public User[] getUsers() {
-        return users;
+        return Arrays.stream(users)
+                .filter(Objects::nonNull)
+                .toArray(User[]::new);
     }
 
     @Override
     public User getUserByEmail(String userEmail) {
-        if (userEmail != null && !userEmail.isEmpty()) {
-            Optional<User> foundUser = Arrays.stream(users)
-                    .filter(user -> user.getEmail().equals(userEmail))
-                    .findFirst();
-            if(foundUser.isPresent()) {
-                return foundUser.get();
-            }
+        if (userEmail != null && !userEmail.isEmpty() && users != null) {
+            return Arrays.stream(users)
+                    .filter(user -> user != null && user.getEmail().equals(userEmail))
+                    .findFirst()
+                    .orElse(null);
         }
         return null;
     }
 
     @Override
     public String registerUser(User user) {
+        Objects.requireNonNull(user, "User cannot be null");
+
         String errorMessage = checkIfEmailValid(user.getEmail());
         if (errorMessage != null && !errorMessage.isEmpty()) {
             return  errorMessage;
@@ -107,6 +110,11 @@ public class UsersManagementServiceImpl implements UserManagementService {
 
     private void doubleArrayCapacity() {
         this.users = Arrays.copyOf(this.users, users.length << 1);
+    }
+
+    void clearServiceState() {
+        lastUserIndex = 0;
+        users = new User[DEFAULT_USERS_CAPACITY];
     }
 
 }

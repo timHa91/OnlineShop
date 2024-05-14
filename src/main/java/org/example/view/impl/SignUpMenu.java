@@ -42,7 +42,7 @@ public class SignUpMenu implements Menu {
 
         String errorMessage = usersManagementService.registerUser(newUser);
 
-        if (errorMessage == null ||errorMessage.isEmpty()) {
+        if (errorMessage == null || errorMessage.isEmpty()) {
             applicationContext.setLoggedInUser(newUser);
             System.out.println("New user is created");
         } else {

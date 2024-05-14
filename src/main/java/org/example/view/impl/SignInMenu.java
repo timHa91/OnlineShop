@@ -22,15 +22,16 @@ public class SignInMenu implements Menu {
         printMenuHeader();
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please, enter your email: ");
-        String email = scanner.next();
+        String email = scanner.nextLine();
         System.out.println("Please, enter your password: ");
         String password = scanner.next();
         String errorMessage = usersManagementService.authenticateUser(new CredentialsImpl(
                 email,
                 password
         ));
-        if (errorMessage == null && errorMessage.isEmpty()) {
-            System.out.printf("Glad to see you back, %s %s",
+
+        if (errorMessage == null || errorMessage.isEmpty()) {
+            System.out.printf("Glad to see you back, %s %s \n",
                     applicationContext.getLoggedInUser().getFirstName(),
                     applicationContext.getLoggedInUser().getLastName()
                     );
