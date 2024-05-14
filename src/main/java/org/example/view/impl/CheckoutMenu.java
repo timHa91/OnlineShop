@@ -10,6 +10,6 @@ public class CheckoutMenu implements Menu {
 
     @Override
     public void printMenuHeader() {
-
+        System.out.println("***** CHECKOUT MENU *****");
     }
 }

@@ -3,13 +3,36 @@ package org.example.models.impl;
 import org.example.models.Product;
 
 public class ProductImpl implements Product {
+
+    private static int productCreatedCount;
+
+    private int id;
+    private String productName;
+    private String categoryName;
+    private double price;
+
+    public ProductImpl(String productName, String categoryName, double price) {
+        productCreatedCount++;
+        this.id = productCreatedCount;
+        this.productName = productName;
+        this.categoryName = categoryName;
+        this.price = price;
+    }
+
     @Override
     public int getId() {
-        return 0;
+        return this.id;
     }
 
     @Override
     public String getProductName() {
-        return "";
+        return this.productName;
     }
+
+    @Override
+    public String toString() {
+        return "Product id=" + id + ", product name=" + productName
+                + ", category name=" + categoryName + ", price=" + price;
+    }
+
 }

@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class MainMenu implements Menu {
     public static final String EXIT_COMMAND = "exit";
+    public static final String MENU_COMMAND = "menu";
     private final ApplicationContext applicationContext;
 
     {
