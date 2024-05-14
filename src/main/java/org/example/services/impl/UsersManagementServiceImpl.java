@@ -5,22 +5,30 @@ import org.example.models.Credentials;
 import org.example.models.User;
 import org.example.services.UserManagementService;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 public class UsersManagementServiceImpl implements UserManagementService {
 
     private static final String NOT_UNIQUE_EMAIL_ERROR_MESSAGE = "This email is already used by another user. Please, use another email";
     private static final String EMPTY_EMAIL_ERROR_MESSAGE = "You have to input email to register. Please, try one more time";
+
+    private static final String SIGNUP_FAILED_MESSAGE = "Unfortunately, such login and password doesn’t exist";
+
     private static final String NO_ERROR_MESSAGE = "";
 
     private static final int DEFAULT_USERS_CAPACITY = 10;
 
     private static UsersManagementServiceImpl instance;
     private final ApplicationContext applicationContext;
+    private int lastUserIndex;
 
-    private final User[] users;
+    private User[] users;
 
     public UsersManagementServiceImpl() {
         users = new User[DEFAULT_USERS_CAPACITY];
         this.applicationContext = ApplicationContext.getInstance();
+        this.lastUserIndex = -1;
     }
 
     public static UsersManagementServiceImpl getInstance() {
@@ -37,6 +45,14 @@ public class UsersManagementServiceImpl implements UserManagementService {
 
     @Override
     public User getUserByEmail(String userEmail) {
+        if (userEmail != null && !userEmail.isEmpty()) {
+            Optional<User> foundUser = Arrays.stream(users)
+                    .filter(user -> user.getEmail().equals(userEmail))
+                    .findFirst();
+            if(foundUser.isPresent()) {
+                return foundUser.get();
+            }
+        }
         return null;
     }
 
@@ -46,29 +62,40 @@ public class UsersManagementServiceImpl implements UserManagementService {
         if (errorMessage != null && !errorMessage.isEmpty()) {
             return  errorMessage;
         }
+        // Check Users Array Capacity
+        if(this.users.length <= lastUserIndex) {
+            doubleArrayCapacity();
+        }
+
         this.addUser(user);
         return NO_ERROR_MESSAGE;
     }
 
     @Override
     public String authenticateUser(Credentials credentials) {
-
-        
-        return null;
+        if (credentials != null) {
+            User foundUser = getUserByEmail(credentials.getEmail());
+            if(foundUser != null && foundUser.getPassword().equals(credentials.getPassword())) {
+                applicationContext.setLoggedInUser(foundUser);
+                return NO_ERROR_MESSAGE;
+            }
+        }
+        return SIGNUP_FAILED_MESSAGE;
     }
 
     private void addUser(User user) {
         if(user != null) {
+            lastUserIndex++;
             this.users[user.getId() - 1] = user;
         }
     }
 
     private String checkIfEmailValid(String email) {
-        System.out.println("Email: " + email);
+        // Check if null or Empty
         if(email == null || email.isEmpty()) {
             return EMPTY_EMAIL_ERROR_MESSAGE;
         }
-
+        // Check if Unique
         for (User user : getUsers()) {
             if (user == null) continue;
             if (user.getEmail() != null && user.getEmail().equals(email)) {
@@ -77,4 +104,9 @@ public class UsersManagementServiceImpl implements UserManagementService {
         }
         return NO_ERROR_MESSAGE;
     }
+
+    private void doubleArrayCapacity() {
+        this.users = Arrays.copyOf(this.users, users.length << 1);
+    }
+
 }
