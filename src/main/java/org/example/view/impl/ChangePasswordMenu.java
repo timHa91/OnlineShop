@@ -11,9 +11,9 @@ public class ChangePasswordMenu implements Menu {
     private final ApplicationContext applicationContext;
 
     {
-
         applicationContext = ApplicationContext.getInstance();
     }
+
     @Override
     public void start() {
         printMenuHeader();

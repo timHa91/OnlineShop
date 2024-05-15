@@ -3,6 +3,7 @@ package org.example.view.impl;
 import org.example.configs.ApplicationContext;
 import org.example.models.Cart;
 import org.example.models.Product;
+import org.example.services.ProductManagementService;
 import org.example.services.impl.ProductManagementServiceImpl;
 import org.example.view.Menu;
 
@@ -21,12 +22,13 @@ public class ProductCatalogMenu implements Menu {
     private static final String CHECKOUT_COMMAND = "checkout";
 
     private final ApplicationContext applicationContext;
-    private final ProductManagementServiceImpl productManagementService;
+    private final ProductManagementService productManagementService;
 
     {
         productManagementService = ProductManagementServiceImpl.getInstance();
         applicationContext = ApplicationContext.getInstance();
     }
+
     @Override
     public void start() {
         Menu menuToNavigate;

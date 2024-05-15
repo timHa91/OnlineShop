@@ -2,6 +2,7 @@ package org.example.view.impl;
 
 import org.example.configs.ApplicationContext;
 import org.example.models.Order;
+import org.example.services.OrderManagementService;
 import org.example.services.impl.OrderManagementServiceImpl;
 import org.example.view.Menu;
 
@@ -13,7 +14,7 @@ public class MyOrdersMenu implements Menu {
     private static final String NO_ORDERS_ERROR = "Unfortunately, you don’t have any orders yet. Navigate back to main menu to place a new order";
 
     private final ApplicationContext applicationContext;
-    private final OrderManagementServiceImpl orderManagementService;
+    private final OrderManagementService orderManagementService;
 
     {
         orderManagementService = OrderManagementServiceImpl.getInstance();

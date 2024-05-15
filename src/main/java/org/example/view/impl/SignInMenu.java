@@ -2,6 +2,7 @@ package org.example.view.impl;
 
 import org.example.configs.ApplicationContext;
 import org.example.models.impl.CredentialsImpl;
+import org.example.services.UserManagementService;
 import org.example.services.impl.UsersManagementServiceImpl;
 import org.example.view.Menu;
 
@@ -9,7 +10,7 @@ import java.util.Scanner;
 
 public class SignInMenu implements Menu {
 
-    private final UsersManagementServiceImpl usersManagementService;
+    private final UserManagementService usersManagementService;
     private final ApplicationContext applicationContext;
 
     {

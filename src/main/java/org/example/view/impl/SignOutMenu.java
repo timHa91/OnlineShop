@@ -10,6 +10,7 @@ public class SignOutMenu implements Menu {
     {
         applicationContext = ApplicationContext.getInstance();
     }
+
     @Override
     public void start() {
         printMenuHeader();

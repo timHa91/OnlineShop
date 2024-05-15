@@ -13,6 +13,7 @@ public class ChangeEmailMenu implements Menu {
     {
         applicationContext = ApplicationContext.getInstance();
     }
+
     @Override
     public void start() {
         printMenuHeader();

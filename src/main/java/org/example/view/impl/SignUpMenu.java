@@ -2,6 +2,7 @@ package org.example.view.impl;
 
 import org.example.configs.ApplicationContext;
 import org.example.models.impl.UserImpl;
+import org.example.services.UserManagementService;
 import org.example.services.impl.UsersManagementServiceImpl;
 import org.example.view.Menu;
 
@@ -9,14 +10,13 @@ import java.util.Scanner;
 
 public class SignUpMenu implements Menu {
 
-    private final UsersManagementServiceImpl usersManagementService;
+    private final UserManagementService usersManagementService;
     private final ApplicationContext applicationContext;
 
     {
         usersManagementService = UsersManagementServiceImpl.getInstance();
         applicationContext = ApplicationContext.getInstance();
     }
-
 
     @Override
     public void start() {
