@@ -3,14 +3,17 @@ package org.example.models.impl;
 import org.example.models.Order;
 import org.example.models.Product;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class OrderImpl implements Order {
 
     private String creditCardNumber;
     private Product[] products;
     private int customerId;
+
     @Override
     public boolean isCreditCardNumberValid(String userInput) {
         String regex = "\\d{16}";
@@ -37,5 +40,14 @@ public class OrderImpl implements Order {
     @Override
     public int getCustomerId() {
         return this.customerId;
+    }
+
+    @Override
+    public String toString() {
+        return "creditCardNumber='" + creditCardNumber + '\n' + "customerId=" + customerId +'\n' +
+                "***** Products *****\n" + Arrays.stream(products)
+                .map(Object::toString)
+                .collect(Collectors.joining("\n"));
+
     }
 }

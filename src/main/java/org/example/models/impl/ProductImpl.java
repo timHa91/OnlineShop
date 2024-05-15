@@ -31,8 +31,8 @@ public class ProductImpl implements Product {
 
     @Override
     public String toString() {
-        return "Product id=" + id + ", product name=" + productName
-                + ", category name=" + categoryName + ", price=" + price;
+        return "id=" + id + ", name=" + productName
+                + ", category=" + categoryName + ", price=" + price;
     }
 
 }
