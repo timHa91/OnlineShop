@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class ProductManagementServiceImpl implements ProductManagementService {
 
-    private static ProductManagementServiceImpl productManagementService;
+    private static ProductManagementServiceImpl instance;
 
     private static Product[] products;
 
@@ -36,10 +36,10 @@ public class ProductManagementServiceImpl implements ProductManagementService {
     }
 
     public static ProductManagementServiceImpl getInstance() {
-        if (productManagementService == null) {
-            productManagementService = new ProductManagementServiceImpl();
+        if (instance == null) {
+            instance = new ProductManagementServiceImpl();
         }
-        return productManagementService;
+        return instance;
     }
 
     @Override

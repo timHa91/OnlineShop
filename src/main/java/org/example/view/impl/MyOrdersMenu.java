@@ -10,6 +10,6 @@ public class MyOrdersMenu implements Menu {
 
     @Override
     public void printMenuHeader() {
-
+        System.out.println("***** MY ORDERS MENU *****");
     }
 }

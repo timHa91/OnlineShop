@@ -26,7 +26,7 @@ public class UsersManagementServiceImpl implements UserManagementService {
 
     private User[] users;
 
-    public UsersManagementServiceImpl() {
+    private UsersManagementServiceImpl() {
         users = new User[DEFAULT_USERS_CAPACITY];
         this.applicationContext = ApplicationContext.getInstance();
         this.lastUserIndex = -1;
@@ -116,5 +116,4 @@ public class UsersManagementServiceImpl implements UserManagementService {
         lastUserIndex = 0;
         users = new User[DEFAULT_USERS_CAPACITY];
     }
-
 }
