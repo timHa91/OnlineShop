@@ -3,44 +3,35 @@ package org.example.services.impl;
 import org.example.models.Order;
 import org.example.services.OrderManagementService;
 
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderManagementServiceImpl implements OrderManagementService {
 
-    private int orderCount;
     private static OrderManagementServiceImpl instance;
-
-    private static final int DEFAULT_ORDERS_CAPACITY = 10;
-
-    private Order[] orders;
+    private final List<Order> orders;
 
     {
-        orders = new Order[DEFAULT_ORDERS_CAPACITY];
+        this.orders = new ArrayList<>();
     }
     @Override
     public void addOrder(Order order) {
         if (order == null ) {
           return;
         }
-        if (orders.length <= orderCount) {
-            orders = Arrays.copyOf(orders, orders.length << 1);
-        }
-        orders[orderCount++] = order;
+        this.orders.add(order);
     }
 
     @Override
-    public Order[] getOrdersByUserId(int userId) {
-        return Arrays.stream(orders)
+    public List<Order> getOrdersByUserId(int userId) {
+        return this.orders.stream()
                 .filter(order -> order != null && order.getCustomerId() == userId)
-                .toArray(Order[]::new);
+                .toList();
     }
 
     @Override
-    public Order[] getOrders() {
-        return Arrays.stream(orders)
-                .filter(Objects::nonNull)
-                .toArray(Order[]::new);
+    public List<Order> getOrders() {
+        return this.orders;
     }
 
     public static OrderManagementServiceImpl getInstance() {
@@ -51,7 +42,6 @@ public class OrderManagementServiceImpl implements OrderManagementService {
     }
 
     void clearServiceState() {
-        orderCount = 0;
-        orders = new Order[DEFAULT_ORDERS_CAPACITY];
+        orders.clear();
     }
 }

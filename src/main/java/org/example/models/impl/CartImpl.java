@@ -3,30 +3,22 @@ package org.example.models.impl;
 import org.example.models.Cart;
 import org.example.models.Product;
 
+import java.time.Period;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class CartImpl implements Cart {
 
-    private int productsInCart = 0;
-    private static final int DEFAULT_PRODUCT_CAPACITY = 10;
-    private Product[] products;
+    private final List<Product> products;
 
     {
-        products = new Product[DEFAULT_PRODUCT_CAPACITY];
+        products = new ArrayList<>();
     }
     @Override
     public boolean isEmpty() {
-        if (products == null || products.length == 0) {
-            return true;
-        }
-
-        for (int i = 0; i < products.length; i++) {
-            if (products[i] != null) {
-                return false;
-            }
-        }
-        return true;
+        return products.isEmpty();
     }
 
     @Override
@@ -35,26 +27,16 @@ public class CartImpl implements Cart {
             return;
         }
 
-        if (products.length <= productsInCart) {
-            products = Arrays.copyOf(products, products.length << 1);
-        }
-
-        products[productsInCart++] = productById;
+        products.add(productById);
     }
 
     @Override
-    public Product[] getProducts() {
-        if (products != null) {
-            return Arrays.stream(products)
-                    .filter(Objects::nonNull)
-                    .toArray(Product[]::new);
-        }
-        return null;
+    public List<Product> getProducts() {
+        return this.products;
     }
 
     @Override
     public void clear() {
-        products = new Product[DEFAULT_PRODUCT_CAPACITY];
-        productsInCart = 0;
+        products.clear();
     }
 }

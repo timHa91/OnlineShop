@@ -5,9 +5,7 @@ import org.example.models.Credentials;
 import org.example.models.User;
 import org.example.services.UserManagementService;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class UsersManagementServiceImpl implements UserManagementService {
 
@@ -18,18 +16,17 @@ public class UsersManagementServiceImpl implements UserManagementService {
 
     private static final String NO_ERROR_MESSAGE = "";
 
-    private static final int DEFAULT_USERS_CAPACITY = 10;
-
     private static UsersManagementServiceImpl instance;
     private final ApplicationContext applicationContext;
-    private int lastUserIndex;
 
-    private User[] users;
+    private final List<User> users;
+
+    {
+        users = new ArrayList<>();
+    }
 
     private UsersManagementServiceImpl() {
-        users = new User[DEFAULT_USERS_CAPACITY];
         this.applicationContext = ApplicationContext.getInstance();
-        this.lastUserIndex = -1;
     }
 
     public static UsersManagementServiceImpl getInstance() {
@@ -40,16 +37,14 @@ public class UsersManagementServiceImpl implements UserManagementService {
     }
 
     @Override
-    public User[] getUsers() {
-        return Arrays.stream(users)
-                .filter(Objects::nonNull)
-                .toArray(User[]::new);
+    public List<User> getUsers() {
+        return users;
     }
 
     @Override
     public User getUserByEmail(String userEmail) {
         if (userEmail != null && !userEmail.isEmpty() && users != null) {
-            return Arrays.stream(users)
+            return users.stream()
                     .filter(user -> user != null && user.getEmail().equals(userEmail))
                     .findFirst()
                     .orElse(null);
@@ -64,10 +59,6 @@ public class UsersManagementServiceImpl implements UserManagementService {
         String errorMessage = checkIfEmailValid(user.getEmail());
         if (errorMessage != null && !errorMessage.isEmpty()) {
             return  errorMessage;
-        }
-        // Check Users Array Capacity
-        if(this.users.length <= lastUserIndex) {
-            doubleArrayCapacity();
         }
 
         this.addUser(user);
@@ -88,8 +79,7 @@ public class UsersManagementServiceImpl implements UserManagementService {
 
     private void addUser(User user) {
         if(user != null) {
-            lastUserIndex++;
-            this.users[user.getId() - 1] = user;
+            this.users.add(user.getId() - 1, user);
         }
     }
 
@@ -108,12 +98,7 @@ public class UsersManagementServiceImpl implements UserManagementService {
         return NO_ERROR_MESSAGE;
     }
 
-    private void doubleArrayCapacity() {
-        this.users = Arrays.copyOf(this.users, users.length << 1);
-    }
-
     void clearServiceState() {
-        lastUserIndex = 0;
-        users = new User[DEFAULT_USERS_CAPACITY];
+        users.clear();
     }
 }

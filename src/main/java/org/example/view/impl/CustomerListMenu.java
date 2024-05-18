@@ -6,22 +6,24 @@ import org.example.services.UserManagementService;
 import org.example.services.impl.UsersManagementServiceImpl;
 import org.example.view.Menu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CustomerListMenu implements Menu {
 
-    private ApplicationContext context;
-    private UserManagementService userManagementService;
+
+    private final UserManagementService userManagementService;
 
     {
         userManagementService = UsersManagementServiceImpl.getInstance();
-        context = ApplicationContext.getInstance();
     }
 
     @Override
     public void start() {
         printMenuHeader();
-        User[] users = userManagementService.getUsers();
+        List<User> users = userManagementService.getUsers();
 
-        if (users.length == 0) {
+        if (users.isEmpty()) {
             System.out.println("Unfortunately, there are no customers.");
         } else {
             for (User user : users) {

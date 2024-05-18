@@ -79,7 +79,7 @@ public class ProductCatalogMenu implements Menu {
     }
 
     private void printProducts() {
-        Arrays.stream(productManagementService.getProducts())
+        productManagementService.getProducts()
                 .forEach(System.out::println);
     }
 

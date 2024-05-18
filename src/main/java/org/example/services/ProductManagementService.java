@@ -2,9 +2,11 @@ package org.example.services;
 
 import org.example.models.Product;
 
+import java.util.List;
+
 public interface ProductManagementService {
 
-    Product[] getProducts();
+    List<Product> getProducts();
 
     Product getProductById(int productIdToAddToCart);
 

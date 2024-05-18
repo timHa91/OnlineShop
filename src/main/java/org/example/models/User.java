@@ -11,4 +11,5 @@ public interface User {
     void setPassword(String newPassword);
     void setEmail(String newEmail);
 
+
 }

@@ -6,7 +6,9 @@ import org.example.services.OrderManagementService;
 import org.example.services.impl.OrderManagementServiceImpl;
 import org.example.view.Menu;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MyOrdersMenu implements Menu {
 
@@ -37,15 +39,14 @@ public class MyOrdersMenu implements Menu {
     }
 
     private void printOrders() {
-        Order[] orders = orderManagementService
+        List<Order> orders = orderManagementService
                 .getOrdersByUserId(applicationContext.getLoggedInUser().getId());
 
-        if(orders == null || orders.length == 0) {
+        if(orders.isEmpty()) {
             System.out.println(NO_ORDERS_ERROR);
             return;
         }
 
-        Arrays.stream(orders)
-                .forEach(System.out::println);
+        orders.forEach(System.out::println);
     }
 }

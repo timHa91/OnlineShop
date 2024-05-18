@@ -4,24 +4,21 @@ import org.example.models.Product;
 import org.example.models.impl.ProductImpl;
 import org.example.services.ProductManagementService;
 
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductManagementServiceImpl implements ProductManagementService {
 
     private static ProductManagementServiceImpl instance;
 
-    private static Product[] products;
+    private static List<Product> products;
 
-    {
+    private ProductManagementServiceImpl() {
         initProducts();
     }
 
-    private ProductManagementServiceImpl() {
-    }
-
     private static void initProducts() {
-        products = new Product[] {
+        products = new ArrayList<>(List.of(
                 new ProductImpl( "Hardwood Oak Suffolk Internal Door", "Doors", 109.99),
                 new ProductImpl("Oregon Cottage Interior Oak Door", "Doors", 179.99),
                 new ProductImpl("Oregon Cottage Horizontal Interior White Oak Door", "Doors", 189.99),
@@ -32,7 +29,7 @@ public class ProductManagementServiceImpl implements ProductManagementService {
                 new ProductImpl("Wienerberger Terca Class B Engineering Brick Red 215mm x 102.5mm x 65mm (Pack of 504)", "Bricks", 402.99),
                 new ProductImpl("Wienerberger Terca Engineering Brick Blue Perforated Class B 65mm (Pack of 400)", "Bricks", 659.99),
                 new ProductImpl("Wienerberger Engineering Brick Red Smooth Class B 73mm - Pack of 368", "Bricks", 523.99)
-        };
+        ));
     }
 
     public static ProductManagementServiceImpl getInstance() {
@@ -43,19 +40,14 @@ public class ProductManagementServiceImpl implements ProductManagementService {
     }
 
     @Override
-    public Product[] getProducts() {
-        if (products != null) {
-            return Arrays.stream(products)
-                    .filter(Objects::nonNull)
-                    .toArray(Product[]::new);
-        }
-        return null;
+    public List<Product> getProducts() {
+        return products;
     }
 
     @Override
     public Product getProductById(int productIdToAddToCart) {
         if (productIdToAddToCart > 0) {
-            return Arrays.stream(products)
+            return products.stream()
                     .filter(product -> product != null && product.getId() == productIdToAddToCart)
                     .findFirst()
                     .orElse(null);

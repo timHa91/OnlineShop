@@ -54,4 +54,13 @@ public class UserImpl implements User {
     public void setEmail(String newEmail) {
         this.email = newEmail;
     }
+
+    @Override
+    public String toString() {
+        return "User=" +
+                "email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 }
