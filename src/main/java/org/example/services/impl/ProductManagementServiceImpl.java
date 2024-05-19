@@ -13,7 +13,7 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 
     private static List<Product> products;
 
-    private ProductManagementServiceImpl() {
+    static {
         initProducts();
     }
 

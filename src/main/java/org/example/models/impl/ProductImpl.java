@@ -6,9 +6,9 @@ public class ProductImpl implements Product {
 
     private static int productCreatedCount;
 
-    private int id;
-    private String productName;
-    private String categoryName;
+    private final int id;
+    private final String productName;
+    private final String categoryName;
     private double price;
 
     public ProductImpl(String productName, String categoryName, double price) {
@@ -27,6 +27,21 @@ public class ProductImpl implements Product {
     @Override
     public String getProductName() {
         return this.productName;
+    }
+
+    @Override
+    public String getCategoryName() {
+        return this.categoryName;
+    }
+
+    @Override
+    public double getPrice() {
+        return this.price;
+    }
+
+    @Override
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     @Override
