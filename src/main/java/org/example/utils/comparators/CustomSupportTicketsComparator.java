@@ -1,6 +1,5 @@
 package org.example.utils.comparators;
 
-import org.example.models.Priority;
 import org.example.models.SupportTicket;
 
 import java.util.Comparator;

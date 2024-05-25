@@ -1,4 +1,4 @@
-package org.example.services;
+package org.example.helpDesk;
 
 import org.example.models.SupportTicket;
 

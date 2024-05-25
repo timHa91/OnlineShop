@@ -1,7 +1,7 @@
-package org.example.services.impl;
+package org.example.helpDesk.impl;
 
 import org.example.models.SupportTicket;
-import org.example.services.HelpDeskFacade;
+import org.example.helpDesk.HelpDeskFacade;
 import org.example.utils.comparators.CustomSupportTicketsComparator;
 
 import java.util.PriorityQueue;
